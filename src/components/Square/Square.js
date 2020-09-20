@@ -18,9 +18,20 @@ const defaultProps = {};
  */
 const useStyles = makeStyles((theme) => ({
   container: {
-    width: "100vw",
-    height: "100vh",
-    overflowX: "hidden",
+    display: "flex",
+  },
+
+  square: {
+    width: "50vmin",
+    height: "50vmin",
+    border: "1px solid",
+    margin: "10vmin",
+    background: "green",
+  },
+
+  legend: {
+    background: "lightgray",
+    padding: "1vmin",
   },
 }));
 
@@ -28,9 +39,28 @@ const useStyles = makeStyles((theme) => ({
  * Displays the component
  */
 const Square = (props) => {
-  const { container } = useStyles(props);
+  const { container, square, legend } = useStyles(props);
 
-  return <div className={clsx("Square", container)}>Square</div>;
+  return (
+    <div className={clsx("SquareContainer", container)}>
+      <div className={clsx("Square", square)} />
+      <div className={clsx("Legend", legend)}>
+        <p>Move (translate) on:</p>
+        <p>
+          <button>X axis</button>
+        </p>
+        <p>
+          <button>Y axis</button>
+        </p>
+        <p>
+          <button>Z axis</button>
+        </p>
+        <p>
+          <input type="checkbox" value="Use perspective" />
+        </p>
+      </div>
+    </div>
+  );
 };
 
 Square.propTypes = propTypes;
