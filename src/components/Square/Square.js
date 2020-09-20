@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   legend: {
-    background: "lightgray",
+    background: "beige",
     padding: "1vmin",
   },
 }));
@@ -47,16 +47,24 @@ const Square = (props) => {
       <div className={clsx("Legend", legend)}>
         <p>Move (translate) on:</p>
         <p>
-          <button>X axis</button>
+          <label>
+            <input type="radio" value="X Axis" /> X Axis
+          </label>
         </p>
         <p>
-          <button>Y axis</button>
+          <label>
+            <input type="radio" value="Y Axis" /> Y Axis
+          </label>
         </p>
         <p>
-          <button>Z axis</button>
+          <label>
+            <input type="radio" value="Z Axis" /> Z Axis
+          </label>
         </p>
         <p>
-          <input type="checkbox" value="Use perspective" />
+          <label>
+            <input type="checkbox" checked={false} /> Use perspective
+          </label>
         </p>
       </div>
     </div>
