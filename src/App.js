@@ -1,9 +1,9 @@
 import React from "react";
-import { ThemeProvider } from "@material-ui/core";
+import { ThemeProvider, createMuiTheme } from "@material-ui/core";
 
 import Demo from "./components/Demo";
 
-const theme = {};
+const theme = createMuiTheme({});
 
 const App = () => {
   return (
