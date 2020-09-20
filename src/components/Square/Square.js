@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
+import { useSpring, animated } from "react-spring";
 
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -47,6 +48,14 @@ const useStyles = makeStyles((theme) => ({
 const Square = (props) => {
   const { container, square, legend } = useStyles(props);
 
+  /**
+   * Defines the animations
+   */
+  const opacity = useSpring({ opacity: 1, from: { opacity: 0 } });
+
+  /**
+   * Manages states and state changes
+   */
   const [axis, setAxis] = useState("x");
   const [perspective, setPerspective] = useState(false);
 
@@ -60,7 +69,7 @@ const Square = (props) => {
 
   return (
     <div className={clsx("SquareContainer", container)}>
-      <div className={clsx("Square", square)} />
+      <animated.div className={clsx("Square", square)} style={opacity} />
       <div className={clsx("Legend", legend)}>
         <FormControl component="fieldset">
           <FormLabel component="legend">Move (translate) on:</FormLabel>
