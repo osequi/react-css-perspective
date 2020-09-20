@@ -24,9 +24,8 @@ const useStyles = makeStyles((theme) => ({
   square: {
     width: "50vmin",
     height: "50vmin",
-    border: "1px solid",
     margin: "10vmin",
-    background: "green",
+    background: "palegreen",
   },
 
   legend: {
