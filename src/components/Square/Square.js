@@ -29,10 +29,18 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
 
+  squareContainer: {
+    width: "200px",
+    height: "200px",
+    border: "1px solid",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
   square: {
-    width: "50vmin",
-    height: "50vmin",
-    margin: "10vmin",
+    width: "100px",
+    height: "100px",
     background: "palegreen",
   },
 
@@ -46,12 +54,12 @@ const useStyles = makeStyles((theme) => ({
  * Displays the component
  */
 const Square = (props) => {
-  const { container, square, legend } = useStyles(props);
+  const { container, squareContainer, square, legend } = useStyles(props);
 
   /**
    * Manages states and state changes
    */
-  const [axis, setAxis] = useState("x");
+  const [axis, setAxis] = useState("axisX");
   const [perspective, setPerspective] = useState(false);
 
   const handleAxisChange = (event) => {
@@ -62,13 +70,29 @@ const Square = (props) => {
     setPerspective(event.target.checked);
   };
 
+  /**
+   * Defines the animations
+   */
+  const transitionRepeat = {
+    duration: 2,
+  };
+
+  const variantsForAxis = {
+    axisX: { translateX: ["-50px", "50px"] },
+    axisY: { translateY: ["-50px", "50px"] },
+    axisZ: { translateZ: ["-50px", "50px"] },
+  };
+
   return (
-    <div className={clsx("SquareContainer", container)}>
-      <motion.div
-        className={clsx("Square", square)}
-        animate={{ translateX: ["-50px", "50px"] }}
-        transition={{ repeat: Infinity, repeatType: "reverse" }}
-      />
+    <div className={clsx("Container", container)}>
+      <div className={clsx("SquareContainer", squareContainer)}>
+        <motion.div
+          className={clsx("Square", square)}
+          animate={axis}
+          variants={variantsForAxis}
+          transition={transitionRepeat}
+        />
+      </div>
       <div className={clsx("Legend", legend)}>
         <FormControl component="fieldset">
           <FormLabel component="legend">Move (translate) on:</FormLabel>
@@ -78,9 +102,21 @@ const Square = (props) => {
             value={axis}
             onChange={handleAxisChange}
           >
-            <FormControlLabel value="x" control={<Radio />} label="X axis" />
-            <FormControlLabel value="y" control={<Radio />} label="Y axis" />
-            <FormControlLabel value="z" control={<Radio />} label="Z axis" />
+            <FormControlLabel
+              value="axisX"
+              control={<Radio />}
+              label="X axis"
+            />
+            <FormControlLabel
+              value="axisY"
+              control={<Radio />}
+              label="Y axis"
+            />
+            <FormControlLabel
+              value="axisZ"
+              control={<Radio />}
+              label="Z axis"
+            />
           </RadioGroup>
           <FormControlLabel
             control={
