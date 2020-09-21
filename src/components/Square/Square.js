@@ -30,14 +30,15 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
 
-  squareContainer: {
+  squareContainer: (props) => ({
     width: "200px",
     height: "200px",
     border: "1px solid",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-  },
+    perspective: props.perspective ? "240px" : 0,
+  }),
 
   square: {
     width: "100px",
@@ -55,8 +56,6 @@ const useStyles = makeStyles((theme) => ({
  * Displays the component
  */
 const Square = (props) => {
-  const { container, squareContainer, square, legend } = useStyles(props);
-
   /**
    * Manages states and state changes
    */
@@ -70,6 +69,13 @@ const Square = (props) => {
   const handlePerspectiveChange = (event) => {
     setPerspective(event.target.checked);
   };
+
+  /**
+   * Loads the styles
+   */
+  const { container, squareContainer, square, legend } = useStyles({
+    perspective: perspective,
+  });
 
   /**
    * Defines the animations
