@@ -6,7 +6,7 @@ import clsx from "clsx";
 /**
  * Imports other components and hooks
  */
-import Square from "../Square";
+import SquareMove from "../SquareMove";
 
 /**
  * Defines the prop types
@@ -35,7 +35,7 @@ const Demo = (props) => {
 
   return (
     <div className={clsx("Demo", container)}>
-      <Square />
+      <SquareMove />
     </div>
   );
 };

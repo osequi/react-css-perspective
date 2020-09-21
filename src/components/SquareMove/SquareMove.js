@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 /**
  * Displays the component
  */
-const Square = (props) => {
+const SquareMove = (props) => {
   /**
    * Manages states and state changes
    */
@@ -171,8 +171,11 @@ const Square = (props) => {
   );
 };
 
-Square.propTypes = propTypes;
-Square.defaultProps = defaultProps;
+SquareMove.propTypes = propTypes;
+SquareMove.defaultProps = defaultProps;
 
-export default Square;
-export { propTypes as SquarePropTypes, defaultProps as SquareDefaultProps };
+export default SquareMove;
+export {
+  propTypes as SquareMovePropTypes,
+  defaultProps as SquareMoveDefaultProps,
+};
