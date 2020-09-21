@@ -157,14 +157,10 @@ const SquareMove = (props) => {
         </FormControl>
       </div>
       <div className={clsx("Note", note)}>
+        <p>When move on Z, perspective has influence on the object.</p>
         <p>
-          Perspective has no influence on the object when it’s moving on the X
-          or Y axes.
-        </p>
-        <p>
-          When the object is moving on the Z axis, perspective makes the square
-          look bigger when it moves closer to us, and smaller when it moves
-          further away.
+          In fact it makes the movement. Without perspectice there is no Z
+          movement.
         </p>
       </div>
     </div>

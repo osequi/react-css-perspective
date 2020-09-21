@@ -142,16 +142,8 @@ const SquareRotate = (props) => {
         </FormControl>
       </div>
       <div className={clsx("Note", note)}>
-        <p>
-          When rotate the square on the X or Y axes without using perspective,
-          it only looks like the square is getting smaller (or narrower) rather
-          than rotating.
-        </p>
-        <p>
-          When we add perspective, we can see that when the square is rotating
-          well, ie. the closer side of the square seems bigger, and the further
-          side looks smaller.
-        </p>
+        <p>When rotate on X and Y, perspective has influence on the object.</p>
+        <p>It makes the rotation natural.</p>
       </div>
     </div>
   );
