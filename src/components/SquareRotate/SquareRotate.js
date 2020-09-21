@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 /**
  * Displays the component
  */
-const SquareMove = (props) => {
+const SquareRotate = (props) => {
   /**
    * Manages states and state changes
    */
@@ -92,36 +92,21 @@ const SquareMove = (props) => {
   const move = (axis) => {
     switch (axis) {
       case "Z":
-        return [
-          { translateZ: 50 },
-          { translateZ: 0 },
-          { translateZ: -50 },
-          { translateZ: 0 },
-        ];
+        return [{ rotateX: 0 }, { rotateY: 0 }, { rotateZ: 360 }];
       case "Y":
-        return [
-          { translateY: 50 },
-          { translateY: 0 },
-          { translateY: -50 },
-          { translateY: 0 },
-        ];
+        return [{ rotateX: 0 }, { rotateZ: 0 }, { rotateY: 360 }];
       case "X":
       default:
-        return [
-          { translateX: 50 },
-          { translateX: 0 },
-          { translateX: -50 },
-          { translateX: 0 },
-        ];
+        return [{ rotateY: 0 }, { rotateZ: 0 }, { rotateX: 360 }];
     }
   };
 
   useEffect(() => {
     anime({
-      targets: ".SquareMove",
+      targets: ".SquareRotate",
       keyframes: move(axis),
       loop: true,
-      duration: 2000,
+      duration: 4000,
       easing: "linear",
     });
   }, [axis]);
@@ -129,14 +114,14 @@ const SquareMove = (props) => {
   return (
     <div className={clsx("Container", container)}>
       <div className={clsx("SquareContainer", squareContainer)}>
-        <div className={clsx("Square", "SquareMove", square)} />
+        <div className={clsx("Square", "SquareRotate", square)} />
       </div>
       <div className={clsx("Legend", legend)}>
         <FormControl component="fieldset">
-          <FormLabel component="legend">Move (translate) on:</FormLabel>
+          <FormLabel component="legend">Rotate on:</FormLabel>
           <RadioGroup
-            aria-label="move"
-            name="move"
+            aria-label="rotate"
+            name="rotate"
             value={axis}
             onChange={handleAxisChange}
           >
@@ -158,24 +143,25 @@ const SquareMove = (props) => {
       </div>
       <div className={clsx("Note", note)}>
         <p>
-          Perspective has no influence on the object when it’s moving on the X
-          or Y axes.
+          When rotate the square on the X or Y axes without using perspective,
+          it only looks like the square is getting smaller (or narrower) rather
+          than rotating.
         </p>
         <p>
-          When the object is moving on the Z axis, perspective makes the square
-          look bigger when it moves closer to us, and smaller when it moves
-          further away.
+          When we add perspective, we can see that when the square is rotating
+          well, ie. the closer side of the square seems bigger, and the further
+          side looks smaller.
         </p>
       </div>
     </div>
   );
 };
 
-SquareMove.propTypes = propTypes;
-SquareMove.defaultProps = defaultProps;
+SquareRotate.propTypes = propTypes;
+SquareRotate.defaultProps = defaultProps;
 
-export default SquareMove;
+export default SquareRotate;
 export {
-  propTypes as SquareMovePropTypes,
-  defaultProps as SquareMoveDefaultProps,
+  propTypes as SquareRotatePropTypes,
+  defaultProps as SquareRotateDefaultProps,
 };
