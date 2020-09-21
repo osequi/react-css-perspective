@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     width: "200px",
     height: "200px",
     border: "1px solid",
+    margin: "1em",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -48,7 +49,15 @@ const useStyles = makeStyles((theme) => ({
 
   legend: {
     background: "beige",
-    padding: "1vmin",
+    padding: "1em",
+    margin: "1em",
+  },
+
+  note: {
+    maxWidth: 300,
+    padding: "1em",
+    margin: "1em",
+    border: "1px solid",
   },
 }));
 
@@ -73,7 +82,7 @@ const Square = (props) => {
   /**
    * Loads the styles
    */
-  const { container, squareContainer, square, legend } = useStyles({
+  const { container, squareContainer, square, legend, note } = useStyles({
     perspective: perspective,
   });
 
@@ -146,6 +155,17 @@ const Square = (props) => {
             label="Use perspective"
           />
         </FormControl>
+      </div>
+      <div className={clsx("Note", note)}>
+        <p>
+          Perspective has no influence on the object when it’s moving on the X
+          or Y axes.
+        </p>
+        <p>
+          When the object is moving on the Z axis, perspective makes the square
+          look bigger when it moves closer to us, and smaller when it moves
+          further away.
+        </p>
       </div>
     </div>
   );
