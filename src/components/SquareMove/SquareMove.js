@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
 import anime from "animejs";
+import ReactMd from "react-md-file";
 
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -11,53 +12,40 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import TextField from "@material-ui/core/TextField";
+
+/**
+ * Imports other components and hooks
+ */
+import Square, { SquarePropTypes, SquareDefaultProps } from "../Square";
 
 /**
  * Defines the prop types
  */
-const propTypes = {};
+const propTypes = {
+  square: PropTypes.shape(SquarePropTypes),
+};
 
 /**
  * Defines the default props
  */
-const defaultProps = {};
+const defaultProps = {
+  square: SquareDefaultProps,
+};
 
 /**
  * Defines the styles
  */
 const useStyles = makeStyles((theme) => ({
-  container: {
-    display: "flex",
-  },
-
-  squareContainer: (props) => ({
-    width: "200px",
-    height: "200px",
-    border: "1px solid",
-    margin: "1em",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    perspective: props.perspective ? "240px" : 0,
-  }),
-
-  square: {
-    width: "100px",
-    height: "100px",
-    background: "palegreen",
-  },
-
   legend: {
+    width: "200px",
     background: "beige",
     padding: "1em",
     margin: "1em",
   },
 
   note: {
-    maxWidth: 300,
-    padding: "1em",
-    margin: "1em",
-    border: "1px solid",
+    maxWidth: "45em",
   },
 }));
 
@@ -65,26 +53,39 @@ const useStyles = makeStyles((theme) => ({
  * Displays the component
  */
 const SquareMove = (props) => {
+  const { square } = props;
+  const { container } = square;
+  const {
+    perspective: defaultPerspective,
+    perspectiveOrigin: defaultPerspectiveOrigin,
+    isPerspectiveOn: defaultIsPerspectiveOn,
+  } = container;
+
   /**
    * Manages states and state changes
    */
   const [axis, setAxis] = useState("X");
-  const [perspective, setPerspective] = useState(false);
+  const [isPerspectiveOn, setIsPerspectiveOn] = useState(
+    defaultIsPerspectiveOn
+  );
+  const [perspective, setPerspective] = useState(defaultPerspective);
 
   const handleAxisChange = (event) => {
     setAxis(event.target.value);
   };
 
+  const handleIsPerspectiveOnChange = (event) => {
+    setIsPerspectiveOn(event.target.checked);
+  };
+
   const handlePerspectiveChange = (event) => {
-    setPerspective(event.target.checked);
+    setPerspective(event.target.value);
   };
 
   /**
    * Loads the styles
    */
-  const { container, squareContainer, square, legend, note } = useStyles({
-    perspective: perspective,
-  });
+  const { legend, note } = useStyles(props);
 
   /**
    * Defines the animations
@@ -128,9 +129,10 @@ const SquareMove = (props) => {
 
   return (
     <div className={clsx("Container", container)}>
-      <div className={clsx("SquareContainer", squareContainer)}>
-        <div className={clsx("Square", "SquareMove", square)} />
+      <div className={clsx("Note", note)}>
+        <ReactMd fileName="./SquareMove.md" />
       </div>
+      <Square className="SquareMove" />
       <div className={clsx("Legend", legend)}>
         <FormControl component="fieldset">
           <FormLabel component="legend">Move (translate) on:</FormLabel>
@@ -147,21 +149,20 @@ const SquareMove = (props) => {
           <FormControlLabel
             control={
               <Checkbox
-                checked={perspective}
-                onChange={handlePerspectiveChange}
+                checked={isPerspectiveOn}
+                onChange={handleIsPerspectiveOnChange}
                 name="perspective"
               />
             }
             label="Use perspective"
           />
+          <TextField
+            id="standard-helperText"
+            label="Set perspective"
+            defaultValue={perspective}
+            onChange={handlePerspectiveChange}
+          />
         </FormControl>
-      </div>
-      <div className={clsx("Note", note)}>
-        <p>When move on Z, perspective has influence on the object.</p>
-        <p>
-          In fact it makes the movement. Without perspectice there is no Z
-          movement.
-        </p>
       </div>
     </div>
   );

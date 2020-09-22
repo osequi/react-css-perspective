@@ -1,16 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
-
-import { Headings } from "@bit/osequi.test.react-semantic-elements";
+import ReactMd from "react-md-file";
 
 /**
  * Imports other components and hooks
  */
 import SquareMove from "../SquareMove";
 import SquareRotate from "../SquareRotate";
+import { Headings } from "@bit/osequi.test.react-semantic-elements";
 
 /**
  * Defines the prop types
@@ -39,6 +38,7 @@ const Demo = (props) => {
 
   return (
     <div className={clsx("Demo", container)}>
+      <ReactMd fileName="./Demo.md" />
       <SquareMove />
       <SquareRotate />
     </div>

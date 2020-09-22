@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
 import anime from "animejs";
+import ReactMd from "react-md-file";
 
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -11,6 +12,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import TextField from "@material-ui/core/TextField";
 
 /**
  * Defines the prop types
@@ -28,6 +30,7 @@ const defaultProps = {};
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
+    justifyContent: "space-between",
   },
 
   squareContainer: (props) => ({
@@ -38,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    perspective: props.perspective ? "240px" : 0,
+    perspective: props.perspective ? props.perspectiveValue : "none",
   }),
 
   square: {
@@ -48,16 +51,14 @@ const useStyles = makeStyles((theme) => ({
   },
 
   legend: {
+    width: "200px",
     background: "beige",
     padding: "1em",
     margin: "1em",
   },
 
   note: {
-    maxWidth: 300,
-    padding: "1em",
-    margin: "1em",
-    border: "1px solid",
+    maxWidth: "45em",
   },
 }));
 
@@ -70,6 +71,7 @@ const SquareRotate = (props) => {
    */
   const [axis, setAxis] = useState("X");
   const [perspective, setPerspective] = useState(false);
+  const [perspectiveValue, setPerspectiveValue] = useState("240px");
 
   const handleAxisChange = (event) => {
     setAxis(event.target.value);
@@ -79,11 +81,16 @@ const SquareRotate = (props) => {
     setPerspective(event.target.checked);
   };
 
+  const handlePerspectiveValueChange = (event) => {
+    setPerspectiveValue(event.target.value);
+  };
+
   /**
    * Loads the styles
    */
   const { container, squareContainer, square, legend, note } = useStyles({
     perspective: perspective,
+    perspectiveValue: perspectiveValue,
   });
 
   /**
@@ -113,6 +120,9 @@ const SquareRotate = (props) => {
 
   return (
     <div className={clsx("Container", container)}>
+      <div className={clsx("Note", note)}>
+        <ReactMd fileName="./SquareRotate.md" />
+      </div>
       <div className={clsx("SquareContainer", squareContainer)}>
         <div className={clsx("Square", "SquareRotate", square)} />
       </div>
@@ -140,10 +150,12 @@ const SquareRotate = (props) => {
             label="Use perspective"
           />
         </FormControl>
-      </div>
-      <div className={clsx("Note", note)}>
-        <p>When rotate on X and Y, perspective has influence on the object.</p>
-        <p>It makes the rotation natural.</p>
+        <TextField
+          id="standard-helperText"
+          label="Set perspective"
+          defaultValue={perspectiveValue}
+          onChange={handlePerspectiveValueChange}
+        />
       </div>
     </div>
   );
