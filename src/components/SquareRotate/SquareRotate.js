@@ -15,14 +15,23 @@ import Checkbox from "@material-ui/core/Checkbox";
 import TextField from "@material-ui/core/TextField";
 
 /**
+ * Imports other components and hooks
+ */
+import Square, { SquarePropTypes, SquareDefaultProps } from "../Square";
+
+/**
  * Defines the prop types
  */
-const propTypes = {};
+const propTypes = {
+  square: PropTypes.shape(SquarePropTypes),
+};
 
 /**
  * Defines the default props
  */
-const defaultProps = {};
+const defaultProps = {
+  square: SquareDefaultProps,
+};
 
 /**
  * Defines the styles
@@ -31,23 +40,6 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     justifyContent: "space-between",
-  },
-
-  squareContainer: (props) => ({
-    width: "200px",
-    height: "200px",
-    border: "1px solid",
-    margin: "1em",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    perspective: props.perspective ? props.perspectiveValue : "none",
-  }),
-
-  square: {
-    width: "100px",
-    height: "100px",
-    background: "palegreen",
   },
 
   legend: {
@@ -66,32 +58,49 @@ const useStyles = makeStyles((theme) => ({
  * Displays the component
  */
 const SquareRotate = (props) => {
+  const { square } = props;
+  const { container } = square;
+  const {
+    perspective: defaultPerspective,
+    perspectiveOrigin: defaultPerspectiveOrigin,
+    isPerspectiveOn: defaultIsPerspectiveOn,
+  } = container;
+
+  /**
+   * Loads the styles
+   */
+  const { container: containerClass, legend, note } = useStyles(props);
+
   /**
    * Manages states and state changes
    */
   const [axis, setAxis] = useState("X");
-  const [perspective, setPerspective] = useState(false);
-  const [perspectiveValue, setPerspectiveValue] = useState("240px");
+  const [isPerspectiveOn, setIsPerspectiveOn] = useState(
+    defaultIsPerspectiveOn
+  );
+  const [perspective, setPerspective] = useState(defaultPerspective);
 
   const handleAxisChange = (event) => {
     setAxis(event.target.value);
   };
 
-  const handlePerspectiveChange = (event) => {
-    setPerspective(event.target.checked);
+  const handleIsPerspectiveOnChange = (event) => {
+    setIsPerspectiveOn(event.target.checked);
   };
 
-  const handlePerspectiveValueChange = (event) => {
-    setPerspectiveValue(event.target.value);
+  const handlePerspectiveChange = (event) => {
+    setPerspective(event.target.value);
   };
 
   /**
-   * Loads the styles
+   * Prepares props for Square
    */
-  const { container, squareContainer, square, legend, note } = useStyles({
+  const container2 = {
+    ...container,
     perspective: perspective,
-    perspectiveValue: perspectiveValue,
-  });
+    isPerspectiveOn: isPerspectiveOn,
+  };
+  const square2 = { ...square, container: container2 };
 
   /**
    * Defines the animations
@@ -119,19 +128,17 @@ const SquareRotate = (props) => {
   }, [axis]);
 
   return (
-    <div className={clsx("Container", container)}>
+    <div className={clsx("Container", containerClass)}>
       <div className={clsx("Note", note)}>
         <ReactMd fileName="./SquareRotate.md" />
       </div>
-      <div className={clsx("SquareContainer", squareContainer)}>
-        <div className={clsx("Square", "SquareRotate", square)} />
-      </div>
+      <Square {...square2} className="SquareRotate" />
       <div className={clsx("Legend", legend)}>
         <FormControl component="fieldset">
           <FormLabel component="legend">Rotate on:</FormLabel>
           <RadioGroup
-            aria-label="rotate"
-            name="rotate"
+            aria-label="move"
+            name="move"
             value={axis}
             onChange={handleAxisChange}
           >
@@ -142,20 +149,20 @@ const SquareRotate = (props) => {
           <FormControlLabel
             control={
               <Checkbox
-                checked={perspective}
-                onChange={handlePerspectiveChange}
+                checked={isPerspectiveOn}
+                onChange={handleIsPerspectiveOnChange}
                 name="perspective"
               />
             }
             label="Use perspective"
           />
+          <TextField
+            id="standard-helperText"
+            label="Set perspective"
+            defaultValue={perspective}
+            onChange={handlePerspectiveChange}
+          />
         </FormControl>
-        <TextField
-          id="standard-helperText"
-          label="Set perspective"
-          defaultValue={perspectiveValue}
-          onChange={handlePerspectiveValueChange}
-        />
       </div>
     </div>
   );

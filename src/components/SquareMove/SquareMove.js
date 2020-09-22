@@ -37,6 +37,11 @@ const defaultProps = {
  * Defines the styles
  */
 const useStyles = makeStyles((theme) => ({
+  container: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+
   legend: {
     width: "200px",
     background: "beige",
@@ -62,6 +67,11 @@ const SquareMove = (props) => {
   } = container;
 
   /**
+   * Loads the styles
+   */
+  const { container: containerClass, legend, note } = useStyles(props);
+
+  /**
    * Manages states and state changes
    */
   const [axis, setAxis] = useState("X");
@@ -83,9 +93,14 @@ const SquareMove = (props) => {
   };
 
   /**
-   * Loads the styles
+   * Prepares props for Square
    */
-  const { legend, note } = useStyles(props);
+  const container2 = {
+    ...container,
+    perspective: perspective,
+    isPerspectiveOn: isPerspectiveOn,
+  };
+  const square2 = { ...square, container: container2 };
 
   /**
    * Defines the animations
@@ -127,24 +142,15 @@ const SquareMove = (props) => {
     });
   }, [axis]);
 
-  const container2 = {
-    ...container,
-    perspective: perspective,
-    isPerspectiveOn: isPerspectiveOn,
-  };
-  const square2 = { ...square, container: container2 };
-
-  console.log("square2:", square2);
-
   return (
-    <div className={clsx("Container", container)}>
+    <div className={clsx("Container", containerClass)}>
       <div className={clsx("Note", note)}>
         <ReactMd fileName="./SquareMove.md" />
       </div>
       <Square {...square2} className="SquareMove" />
       <div className={clsx("Legend", legend)}>
         <FormControl component="fieldset">
-          <FormLabel component="legend">Move (translate) on:</FormLabel>
+          <FormLabel component="legend">Move on:</FormLabel>
           <RadioGroup
             aria-label="move"
             name="move"
