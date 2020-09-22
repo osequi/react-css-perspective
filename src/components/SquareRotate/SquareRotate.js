@@ -79,6 +79,9 @@ const SquareRotate = (props) => {
     defaultIsPerspectiveOn
   );
   const [perspective, setPerspective] = useState(defaultPerspective);
+  const [perspectiveOrigin, setPerspectiveOrigin] = useState(
+    defaultPerspectiveOrigin
+  );
 
   const handleAxisChange = (event) => {
     setAxis(event.target.value);
@@ -92,6 +95,10 @@ const SquareRotate = (props) => {
     setPerspective(event.target.value);
   };
 
+  const handlePerspectiveOriginChange = (event) => {
+    setPerspectiveOrigin(event.target.value);
+  };
+
   /**
    * Prepares props for Square
    */
@@ -99,6 +106,7 @@ const SquareRotate = (props) => {
     ...container,
     perspective: perspective,
     isPerspectiveOn: isPerspectiveOn,
+    perspectiveOrigin: perspectiveOrigin,
   };
   const square2 = { ...square, container: container2 };
 
@@ -156,12 +164,22 @@ const SquareRotate = (props) => {
             }
             label="Use perspective"
           />
-          <TextField
-            id="standard-helperText"
-            label="Set perspective"
-            defaultValue={perspective}
-            onChange={handlePerspectiveChange}
-          />
+          <p>
+            <TextField
+              id="set-perspective"
+              label="Set perspective"
+              defaultValue={perspective}
+              onChange={handlePerspectiveChange}
+            />
+          </p>
+          <p>
+            <TextField
+              id="set-perspective-origin"
+              label="Set perspective origin"
+              defaultValue={perspectiveOrigin}
+              onChange={handlePerspectiveOriginChange}
+            />
+          </p>
         </FormControl>
       </div>
     </div>
