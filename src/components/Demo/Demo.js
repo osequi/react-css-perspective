@@ -1,7 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
+
+import { Headings } from "@bit/osequi.test.react-semantic-elements";
 
 /**
  * Imports other components and hooks
