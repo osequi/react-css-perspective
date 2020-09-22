@@ -26,7 +26,7 @@ const defaultProps = {
   container: {
     width: "200px",
     height: "200px",
-    perspective: "none",
+    perspective: "240px",
     perspectiveOrigin: "50% 50%",
     isPerspectiveOn: false,
   },
@@ -42,9 +42,9 @@ const useStyles = makeStyles((theme) => ({
   container: (props) => ({
     width: props.container.width,
     height: props.container.height,
-    perspective: props.isPerspectiveOn
+    perspective: props.container.isPerspectiveOn
       ? props.container.perspective
-      : defaultProps.container.perspective,
+      : "none",
     perspectiveOrigin: props.container.perspectiveOrigin,
 
     border: "1px solid",

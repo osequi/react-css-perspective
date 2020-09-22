@@ -127,12 +127,21 @@ const SquareMove = (props) => {
     });
   }, [axis]);
 
+  const container2 = {
+    ...container,
+    perspective: perspective,
+    isPerspectiveOn: isPerspectiveOn,
+  };
+  const square2 = { ...square, container: container2 };
+
+  console.log("square2:", square2);
+
   return (
     <div className={clsx("Container", container)}>
       <div className={clsx("Note", note)}>
         <ReactMd fileName="./SquareMove.md" />
       </div>
-      <Square className="SquareMove" />
+      <Square {...square2} className="SquareMove" />
       <div className={clsx("Legend", legend)}>
         <FormControl component="fieldset">
           <FormLabel component="legend">Move (translate) on:</FormLabel>
