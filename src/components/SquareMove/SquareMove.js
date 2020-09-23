@@ -2,28 +2,25 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
+import shortid from "shortid";
 
 import anime from "animejs";
 import ReactMd from "react-md-file";
-
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import TextField from "@material-ui/core/TextField";
 
 /**
  * Imports other components and hooks
  */
 import Square, { SquarePropTypes, SquareDefaultProps } from "../Square";
+import useControls, {
+  useControlsPropTypes,
+} from "@bit/osequi.test.use-controls";
 
 /**
  * Defines the prop types
  */
 const propTypes = {
   square: PropTypes.shape(SquarePropTypes),
+  controls: PropTypes.shape(useControlsPropTypes),
 };
 
 /**
@@ -31,6 +28,7 @@ const propTypes = {
  */
 const defaultProps = {
   square: SquareDefaultProps,
+  controls: {},
 };
 
 /**
@@ -60,11 +58,7 @@ const useStyles = makeStyles((theme) => ({
 const SquareMove = (props) => {
   const { square } = props;
   const { container } = square;
-  const {
-    perspective: defaultPerspective,
-    perspectiveOrigin: defaultPerspectiveOrigin,
-    isPerspectiveOn: defaultIsPerspectiveOn,
-  } = container;
+  const { isPerspectiveOn, perspective, perspectiveOrigin } = container;
 
   /**
    * Loads the styles
@@ -72,131 +66,67 @@ const SquareMove = (props) => {
   const { container: containerClass, legend, note } = useStyles(props);
 
   /**
-   * Manages states and state changes
+   * Defines the controls
    */
-  const [axis, setAxis] = useState("X");
-  const [isPerspectiveOn, setIsPerspectiveOn] = useState(
-    defaultIsPerspectiveOn
-  );
-  const [perspective, setPerspective] = useState(defaultPerspective);
-  const [perspectiveOrigin, setPerspectiveOrigin] = useState(
-    defaultPerspectiveOrigin
-  );
-
-  const handleAxisChange = (event) => {
-    setAxis(event.target.value);
+  const controls = {
+    title: "Move on:",
+    items: [
+      {
+        id: shortid.generate(),
+        type: "radio",
+        label: "Axes",
+        value: "X",
+        items: [
+          {
+            id: shortid.generate(),
+            label: "X axis",
+            value: "X",
+          },
+          {
+            id: shortid.generate(),
+            label: "Y axis",
+            value: "Y",
+          },
+          {
+            id: shortid.generate(),
+            label: "Z axis",
+            value: "Z",
+          },
+        ],
+      },
+      {
+        id: shortid.generate(),
+        type: "checkbox",
+        label: "Use perspective",
+        value: isPerspectiveOn,
+      },
+      {
+        id: shortid.generate(),
+        type: "text",
+        label: "Set perspective",
+        value: perspective,
+      },
+      {
+        id: shortid.generate(),
+        type: "text",
+        label: "Set perspective origin",
+        value: perspectiveOrigin,
+      },
+    ],
   };
 
-  const handleIsPerspectiveOnChange = (event) => {
-    setIsPerspectiveOn(event.target.checked);
-  };
+  const [values, form] = useControls(controls);
 
-  const handlePerspectiveChange = (event) => {
-    setPerspective(event.target.value);
-  };
-
-  const handlePerspectiveOriginChange = (event) => {
-    setPerspectiveOrigin(event.target.value);
-  };
-
-  /**
-   * Prepares props for Square
-   */
-  const container2 = {
-    ...container,
-    perspective: perspective,
-    isPerspectiveOn: isPerspectiveOn,
-    perspectiveOrigin: perspectiveOrigin,
-  };
-  const square2 = { ...square, container: container2 };
-
-  /**
-   * Defines the animations
-   */
-  const move = (axis) => {
-    switch (axis) {
-      case "Z":
-        return [
-          { translateZ: 50 },
-          { translateZ: 0 },
-          { translateZ: -50 },
-          { translateZ: 0 },
-        ];
-      case "Y":
-        return [
-          { translateY: 50 },
-          { translateY: 0 },
-          { translateY: -50 },
-          { translateY: 0 },
-        ];
-      case "X":
-      default:
-        return [
-          { translateX: 50 },
-          { translateX: 0 },
-          { translateX: -50 },
-          { translateX: 0 },
-        ];
-    }
-  };
-
-  useEffect(() => {
-    anime({
-      targets: ".SquareMove",
-      keyframes: move(axis),
-      loop: true,
-      duration: 2000,
-      easing: "linear",
-    });
-  }, [axis]);
+  console.log("form:", form);
+  console.log("values:", values);
 
   return (
     <div className={clsx("Container", containerClass)}>
       <div className={clsx("Note", note)}>
         <ReactMd fileName="./SquareMove.md" />
       </div>
-      <Square {...square2} className="SquareMove" />
-      <div className={clsx("Legend", legend)}>
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Move on:</FormLabel>
-          <RadioGroup
-            aria-label="move"
-            name="move"
-            value={axis}
-            onChange={handleAxisChange}
-          >
-            <FormControlLabel value="X" control={<Radio />} label="X axis" />
-            <FormControlLabel value="Y" control={<Radio />} label="Y axis" />
-            <FormControlLabel value="Z" control={<Radio />} label="Z axis" />
-          </RadioGroup>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={isPerspectiveOn}
-                onChange={handleIsPerspectiveOnChange}
-                name="perspective"
-              />
-            }
-            label="Use perspective"
-          />
-          <p>
-            <TextField
-              id="set-perspective"
-              label="Set perspective"
-              defaultValue={perspective}
-              onChange={handlePerspectiveChange}
-            />
-          </p>
-          <p>
-            <TextField
-              id="set-perspective-origin"
-              label="Set perspective origin"
-              defaultValue={perspectiveOrigin}
-              onChange={handlePerspectiveOriginChange}
-            />
-          </p>
-        </FormControl>
-      </div>
+      <Square {...square} className="SquareMove" />
+      <div className={clsx("Legend", legend)}></div>
     </div>
   );
 };
