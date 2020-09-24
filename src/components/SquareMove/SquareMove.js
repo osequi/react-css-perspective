@@ -6,7 +6,9 @@ import shortid from "shortid";
 
 import anime from "animejs";
 import ReactMd from "react-md-file";
-import useControls from "@bit/osequi.test.use-controls";
+import useControls, {
+  useControlsPropTypes,
+} from "@bit/osequi.test.use-controls";
 
 /**
  * Imports other components and hooks
@@ -18,6 +20,7 @@ import Square, { SquarePropTypes, SquareDefaultProps } from "../Square";
  */
 const propTypes = {
   square: PropTypes.shape(SquarePropTypes),
+  controls: PropTypes.shape(useControlsPropTypes),
 };
 
 /**
@@ -25,62 +28,84 @@ const propTypes = {
  */
 const defaultProps = {
   square: SquareDefaultProps,
-};
-
-/**
- * Defines the controls
- */
-const getControls = (props) => {
-  const { square } = props;
-  const { container } = square;
-  const { isPerspectiveOn, perspective, perspectiveOrigin } = container;
-
-  return {
+  controls: {
     title: "Move on:",
     items: [
       {
-        id: "1",
+        id: shortid.generate(),
         type: "radio",
         label: "Axis",
         value: "X",
         items: [
           {
-            id: "1a",
+            id: shortid.generate(),
             label: "X axis",
             value: "X",
           },
           {
-            id: "1b",
+            id: shortid.generate(),
             label: "Y axis",
             value: "Y",
           },
           {
-            id: "1c",
+            id: shortid.generate(),
             label: "Z axis",
             value: "Z",
           },
         ],
       },
       {
-        id: "2",
+        id: shortid.generate(),
         type: "checkbox",
         label: "Use perspective",
-        value: isPerspectiveOn,
+        value: false,
       },
       {
-        id: "3",
+        id: shortid.generate(),
         type: "text",
         label: "Set perspective",
-        value: perspective,
+        value: "0",
       },
       {
-        id: "4",
+        id: shortid.generate(),
         type: "text",
         label: "Set perspective origin",
-        value: perspectiveOrigin,
+        value: "0",
       },
     ],
-  };
+  },
+};
+
+/**
+ * Updates the Controls with values
+ */
+const updateControls = (props) => {
+  const { square, controls } = props;
+  const { items } = controls;
+  const { container } = square;
+  const { isPerspectiveOn, perspective, perspectiveOrigin } = container;
+
+  const items2 =
+    items &&
+    items.map((item) => {
+      const { label } = item;
+
+      if (label === "Use perspective") {
+        return { ...item, value: isPerspectiveOn };
+      }
+
+      if (label === "Set perspective") {
+        return { ...item, value: perspective };
+      }
+
+      if (label === "Set perspective origin") {
+        return { ...item, value: perspectiveOrigin };
+      }
+
+      return item;
+    });
+
+  return { ...controls, items: items2 };
 };
 
 /**
@@ -119,7 +144,7 @@ const SquareMove = (props) => {
   /**
    * Loads the controls
    */
-  const controls = getControls(props);
+  const controls = updateControls(props);
   const [values, form] = useControls(controls);
 
   /**
