@@ -133,6 +133,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 /**
+ * Defines the animations
+ */
+const move = (axis) => {
+  switch (axis) {
+    case "Z":
+      return [
+        { translateZ: 50 },
+        { translateZ: 0 },
+        { translateZ: -50 },
+        { translateZ: 0 },
+      ];
+    case "Y":
+      return [
+        { translateY: 50 },
+        { translateY: 0 },
+        { translateY: -50 },
+        { translateY: 0 },
+      ];
+    case "X":
+    default:
+      return [
+        { translateX: 50 },
+        { translateX: 0 },
+        { translateX: -50 },
+        { translateX: 0 },
+      ];
+  }
+};
+
+/**
  * Displays the component
  */
 const SquareMove = (props) => {
@@ -162,7 +192,7 @@ const SquareMove = (props) => {
   } = values;
 
   /**
-   * Prepares props for Square
+   * Updates the Square from Controls
    */
   const container2 = {
     ...container,
@@ -174,35 +204,8 @@ const SquareMove = (props) => {
   const square2 = { ...square, container: container2 };
 
   /**
-   * Defines the animations
+   * Updates the animation from Controls
    */
-  const move = (axis) => {
-    switch (axis) {
-      case "Z":
-        return [
-          { translateZ: 50 },
-          { translateZ: 0 },
-          { translateZ: -50 },
-          { translateZ: 0 },
-        ];
-      case "Y":
-        return [
-          { translateY: 50 },
-          { translateY: 0 },
-          { translateY: -50 },
-          { translateY: 0 },
-        ];
-      case "X":
-      default:
-        return [
-          { translateX: 50 },
-          { translateX: 0 },
-          { translateX: -50 },
-          { translateX: 0 },
-        ];
-    }
-  };
-
   useEffect(() => {
     anime({
       targets: ".SquareMove",
