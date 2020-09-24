@@ -6,21 +6,18 @@ import shortid from "shortid";
 
 import anime from "animejs";
 import ReactMd from "react-md-file";
+import useControls from "@bit/osequi.test.use-controls";
 
 /**
  * Imports other components and hooks
  */
 import Square, { SquarePropTypes, SquareDefaultProps } from "../Square";
-import useControls, {
-  useControlsPropTypes,
-} from "@bit/osequi.test.use-controls";
 
 /**
  * Defines the prop types
  */
 const propTypes = {
   square: PropTypes.shape(SquarePropTypes),
-  controls: PropTypes.shape(useControlsPropTypes),
 };
 
 /**
@@ -28,78 +25,17 @@ const propTypes = {
  */
 const defaultProps = {
   square: SquareDefaultProps,
-  controls: {
-    title: "Controls demo",
-    items: [
-      { id: shortid.generate(), type: "text", label: "Text", value: "text" },
-      {
-        id: shortid.generate(),
-        type: "checkbox",
-        label: "Checkbox",
-        value: true,
-      },
-      {
-        id: shortid.generate(),
-        type: "radio",
-        label: "Radio",
-        value: "Y",
-        items: [
-          {
-            id: shortid.generate(),
-            label: "X",
-            value: "X",
-          },
-          {
-            id: shortid.generate(),
-            label: "Y",
-            value: "Y",
-          },
-          {
-            id: shortid.generate(),
-            label: "Z",
-            value: "Z",
-          },
-        ],
-      },
-    ],
-  },
 };
 
 /**
- * Defines the styles
+ * Defines the controls
  */
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-
-  legend: {
-    width: "200px",
-    background: "beige",
-    padding: "1em",
-    margin: "1em",
-  },
-
-  note: {
-    maxWidth: "45em",
-  },
-}));
-
-/**
- * Displays the component
- */
-const SquareMove = (props) => {
-  const { square, controls } = props;
+const getControls = (props) => {
+  const { square } = props;
   const { container } = square;
   const { isPerspectiveOn, perspective, perspectiveOrigin } = container;
 
-  /**
-   * Loads the styles
-   */
-  const { container: containerClass, legend, note } = useStyles(props);
-
-  const controls2 = {
+  return {
     title: "Move on:",
     items: [
       {
@@ -145,10 +81,48 @@ const SquareMove = (props) => {
       },
     ],
   };
+};
 
-  const [values, form] = useControls(controls2);
+/**
+ * Defines the styles
+ */
+const useStyles = makeStyles((theme) => ({
+  container: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
 
-  console.log("form:", form);
+  legend: {
+    width: "200px",
+    background: "beige",
+    padding: "1em",
+    margin: "1em",
+  },
+
+  note: {
+    maxWidth: "45em",
+  },
+}));
+
+/**
+ * Displays the component
+ */
+const SquareMove = (props) => {
+  const { square } = props;
+  const { container } = square;
+  const { isPerspectiveOn, perspective, perspectiveOrigin } = container;
+
+  /**
+   * Loads the styles
+   */
+  const { container: containerClass, legend, note } = useStyles(props);
+
+  /**
+   * Loads the controls
+   */
+  const controls = getControls(props);
+  const [values, form] = useControls(controls);
+
   console.log("values:", values);
 
   return (
