@@ -14,6 +14,12 @@ import useControls, {
  * Imports other components and hooks
  */
 import Square, { SquarePropTypes, SquareDefaultProps } from "../Square";
+import useMarkdown from "../../hooks/useMarkdown";
+
+/**
+ * Imports docs
+ */
+import docFile from "./SquareMove.md";
 
 /**
  * Defines the prop types
@@ -175,6 +181,11 @@ const SquareMove = (props) => {
   const { container: containerClass, legend, note } = useStyles(props);
 
   /**
+   * Loads docs
+   */
+  const { html: docs } = useMarkdown(docFile);
+
+  /**
    * Loads the controls
    */
   const controls = updateControls(props);
@@ -218,9 +229,7 @@ const SquareMove = (props) => {
 
   return (
     <div className={clsx("Container", containerClass)}>
-      <div className={clsx("Note", note)}>
-        <ReactMd fileName="./SquareMove.md" />
-      </div>
+      <div className={clsx("Note", note)}>{docs}</div>
       <Square {...square2} className="SquareMove" />
       <div className={clsx("Legend", legend)}>{form}</div>
     </div>
