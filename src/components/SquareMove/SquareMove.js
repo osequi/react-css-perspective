@@ -28,7 +28,41 @@ const propTypes = {
  */
 const defaultProps = {
   square: SquareDefaultProps,
-  controls: {},
+  controls: {
+    title: "Controls demo",
+    items: [
+      { id: shortid.generate(), type: "text", label: "Text", value: "text" },
+      {
+        id: shortid.generate(),
+        type: "checkbox",
+        label: "Checkbox",
+        value: true,
+      },
+      {
+        id: shortid.generate(),
+        type: "radio",
+        label: "Radio",
+        value: "Y",
+        items: [
+          {
+            id: shortid.generate(),
+            label: "X",
+            value: "X",
+          },
+          {
+            id: shortid.generate(),
+            label: "Y",
+            value: "Y",
+          },
+          {
+            id: shortid.generate(),
+            label: "Z",
+            value: "Z",
+          },
+        ],
+      },
+    ],
+  },
 };
 
 /**
@@ -56,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
  * Displays the component
  */
 const SquareMove = (props) => {
-  const { square } = props;
+  const { square, controls } = props;
   const { container } = square;
   const { isPerspectiveOn, perspective, perspectiveOrigin } = container;
 
@@ -65,49 +99,46 @@ const SquareMove = (props) => {
    */
   const { container: containerClass, legend, note } = useStyles(props);
 
-  /**
-   * Defines the controls
-   */
-  const controls = {
+  const controls2 = {
     title: "Move on:",
     items: [
       {
-        id: shortid.generate(),
+        id: "1",
         type: "radio",
         label: "Axes",
         value: "X",
         items: [
           {
-            id: shortid.generate(),
+            id: "1a",
             label: "X axis",
             value: "X",
           },
           {
-            id: shortid.generate(),
+            id: "1b",
             label: "Y axis",
             value: "Y",
           },
           {
-            id: shortid.generate(),
+            id: "1c",
             label: "Z axis",
             value: "Z",
           },
         ],
       },
       {
-        id: shortid.generate(),
+        id: "2",
         type: "checkbox",
         label: "Use perspective",
         value: isPerspectiveOn,
       },
       {
-        id: shortid.generate(),
+        id: "3",
         type: "text",
         label: "Set perspective",
         value: perspective,
       },
       {
-        id: shortid.generate(),
+        id: "4",
         type: "text",
         label: "Set perspective origin",
         value: perspectiveOrigin,
@@ -115,18 +146,14 @@ const SquareMove = (props) => {
     ],
   };
 
-  const [values, form] = useControls(controls);
+  const [values, form] = useControls(controls2);
 
   console.log("form:", form);
   console.log("values:", values);
 
   return (
     <div className={clsx("Container", containerClass)}>
-      <div className={clsx("Note", note)}>
-        <ReactMd fileName="./SquareMove.md" />
-      </div>
-      <Square {...square} className="SquareMove" />
-      <div className={clsx("Legend", legend)}></div>
+      <div className={clsx("Legend", legend)}>{form}</div>
     </div>
   );
 };
