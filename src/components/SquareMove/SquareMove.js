@@ -77,7 +77,10 @@ const defaultProps = {
 };
 
 /**
- * Updates the Controls with values
+ * Updates the Controls with values.
+ * - Since `controls` use `shortid.generate()` they can't be defined together with `values` which change. This would cause endless re-renders
+ * - Therefore, first, `controls` are defined with `shortid` as static props.
+ * - Then they are updated with dynamic values.
  */
 const updateControls = (props) => {
   const { square, controls } = props;
