@@ -234,4 +234,5 @@ export default SquareMove;
 export {
   propTypes as SquareMovePropTypes,
   defaultProps as SquareMoveDefaultProps,
+  updateControls,
 };

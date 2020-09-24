@@ -1,5 +1,6 @@
 export {
   default,
   SquareMovePropTypes,
-  SquareMoveDefaultProps
+  SquareMoveDefaultProps,
+  updateControls,
 } from "./SquareMove";

@@ -2,28 +2,26 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
+import shortid from "shortid";
 
 import anime from "animejs";
 import ReactMd from "react-md-file";
-
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import TextField from "@material-ui/core/TextField";
+import useControls, {
+  useControlsPropTypes,
+} from "@bit/osequi.test.use-controls";
 
 /**
  * Imports other components and hooks
  */
 import Square, { SquarePropTypes, SquareDefaultProps } from "../Square";
+import { updateControls } from "../SquareMove";
 
 /**
  * Defines the prop types
  */
 const propTypes = {
   square: PropTypes.shape(SquarePropTypes),
+  controls: PropTypes.shape(useControlsPropTypes),
 };
 
 /**
@@ -31,6 +29,52 @@ const propTypes = {
  */
 const defaultProps = {
   square: SquareDefaultProps,
+  controls: {
+    title: "Rotate on:",
+    items: [
+      {
+        id: shortid.generate(),
+        type: "radio",
+        label: "Axis",
+        value: "X",
+        items: [
+          {
+            id: shortid.generate(),
+            label: "X axis",
+            value: "X",
+          },
+          {
+            id: shortid.generate(),
+            label: "Y axis",
+            value: "Y",
+          },
+          {
+            id: shortid.generate(),
+            label: "Z axis",
+            value: "Z",
+          },
+        ],
+      },
+      {
+        id: shortid.generate(),
+        type: "checkbox",
+        label: "Use perspective",
+        value: false,
+      },
+      {
+        id: shortid.generate(),
+        type: "text",
+        label: "Set perspective",
+        value: "0",
+      },
+      {
+        id: shortid.generate(),
+        type: "text",
+        label: "Set perspective origin",
+        value: "0",
+      },
+    ],
+  },
 };
 
 /**
@@ -55,16 +99,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 /**
+ * Defines the animations
+ */
+const rotate = (axis) => {
+  switch (axis) {
+    case "Z":
+      return [{ rotateX: 0 }, { rotateY: 0 }, { rotateZ: 360 }];
+    case "Y":
+      return [{ rotateX: 0 }, { rotateZ: 0 }, { rotateY: 360 }];
+    case "X":
+    default:
+      return [{ rotateY: 0 }, { rotateZ: 0 }, { rotateX: 360 }];
+  }
+};
+
+/**
  * Displays the component
  */
 const SquareRotate = (props) => {
   const { square } = props;
   const { container } = square;
-  const {
-    perspective: defaultPerspective,
-    perspectiveOrigin: defaultPerspectiveOrigin,
-    isPerspectiveOn: defaultIsPerspectiveOn,
-  } = container;
 
   /**
    * Loads the styles
@@ -72,35 +126,24 @@ const SquareRotate = (props) => {
   const { container: containerClass, legend, note } = useStyles(props);
 
   /**
-   * Manages states and state changes
+   * Loads the controls
    */
-  const [axis, setAxis] = useState("X");
-  const [isPerspectiveOn, setIsPerspectiveOn] = useState(
-    defaultIsPerspectiveOn
-  );
-  const [perspective, setPerspective] = useState(defaultPerspective);
-  const [perspectiveOrigin, setPerspectiveOrigin] = useState(
-    defaultPerspectiveOrigin
-  );
-
-  const handleAxisChange = (event) => {
-    setAxis(event.target.value);
-  };
-
-  const handleIsPerspectiveOnChange = (event) => {
-    setIsPerspectiveOn(event.target.checked);
-  };
-
-  const handlePerspectiveChange = (event) => {
-    setPerspective(event.target.value);
-  };
-
-  const handlePerspectiveOriginChange = (event) => {
-    setPerspectiveOrigin(event.target.value);
-  };
+  const controls = updateControls(props);
+  const [values, form] = useControls(controls);
 
   /**
-   * Prepares props for Square
+   * Updates props from controls.
+   * When controls are updated these props will get updated too.
+   */
+  const {
+    axis,
+    usePerspective: isPerspectiveOn,
+    setPerspective: perspective,
+    setPerspectiveOrigin: perspectiveOrigin,
+  } = values;
+
+  /**
+   * Updates the Square from Controls
    */
   const container2 = {
     ...container,
@@ -108,27 +151,16 @@ const SquareRotate = (props) => {
     isPerspectiveOn: isPerspectiveOn,
     perspectiveOrigin: perspectiveOrigin,
   };
+
   const square2 = { ...square, container: container2 };
 
   /**
-   * Defines the animations
+   * Updates the animation from Controls
    */
-  const move = (axis) => {
-    switch (axis) {
-      case "Z":
-        return [{ rotateX: 0 }, { rotateY: 0 }, { rotateZ: 360 }];
-      case "Y":
-        return [{ rotateX: 0 }, { rotateZ: 0 }, { rotateY: 360 }];
-      case "X":
-      default:
-        return [{ rotateY: 0 }, { rotateZ: 0 }, { rotateX: 360 }];
-    }
-  };
-
   useEffect(() => {
     anime({
       targets: ".SquareRotate",
-      keyframes: move(axis),
+      keyframes: rotate(axis),
       loop: true,
       duration: 4000,
       easing: "linear",
@@ -141,47 +173,7 @@ const SquareRotate = (props) => {
         <ReactMd fileName="./SquareRotate.md" />
       </div>
       <Square {...square2} className="SquareRotate" />
-      <div className={clsx("Legend", legend)}>
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Rotate on:</FormLabel>
-          <RadioGroup
-            aria-label="move"
-            name="move"
-            value={axis}
-            onChange={handleAxisChange}
-          >
-            <FormControlLabel value="X" control={<Radio />} label="X axis" />
-            <FormControlLabel value="Y" control={<Radio />} label="Y axis" />
-            <FormControlLabel value="Z" control={<Radio />} label="Z axis" />
-          </RadioGroup>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={isPerspectiveOn}
-                onChange={handleIsPerspectiveOnChange}
-                name="perspective"
-              />
-            }
-            label="Use perspective"
-          />
-          <p>
-            <TextField
-              id="set-perspective"
-              label="Set perspective"
-              defaultValue={perspective}
-              onChange={handlePerspectiveChange}
-            />
-          </p>
-          <p>
-            <TextField
-              id="set-perspective-origin"
-              label="Set perspective origin"
-              defaultValue={perspectiveOrigin}
-              onChange={handlePerspectiveOriginChange}
-            />
-          </p>
-        </FormControl>
-      </div>
+      <div className={clsx("Legend", legend)}>{form}</div>
     </div>
   );
 };
