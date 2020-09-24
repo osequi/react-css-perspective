@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@bit/osequi.test.react-semantic-elements": "^0.1.0",
-    "@bit/osequi.test.use-controls": "^0.1.0",
+    "@bit/osequi.test.use-controls": "^0.1.1",
     "@material-ui/core": "^4.11.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",

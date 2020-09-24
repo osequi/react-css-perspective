@@ -41,7 +41,7 @@ const getControls = (props) => {
       {
         id: "1",
         type: "radio",
-        label: "Axes",
+        label: "Axis",
         value: "X",
         items: [
           {
@@ -110,7 +110,6 @@ const useStyles = makeStyles((theme) => ({
 const SquareMove = (props) => {
   const { square } = props;
   const { container } = square;
-  const { isPerspectiveOn, perspective, perspectiveOrigin } = container;
 
   /**
    * Loads the styles
@@ -122,7 +121,17 @@ const SquareMove = (props) => {
    */
   const controls = getControls(props);
   const [values, form] = useControls(controls);
-  console.log("values:", values);
+
+  /**
+   * Updates props from controls.
+   * When controls are updated these props will get updated too.
+   */
+  const {
+    axis,
+    usePerspective: isPerspectiveOn,
+    setPerspective: perspective,
+    setPerspectiveOrigin: perspectiveOrigin,
+  } = values;
 
   /**
    * Prepares props for Square
@@ -133,7 +142,48 @@ const SquareMove = (props) => {
     isPerspectiveOn: isPerspectiveOn,
     perspectiveOrigin: perspectiveOrigin,
   };
+
   const square2 = { ...square, container: container2 };
+
+  /**
+   * Defines the animations
+   */
+  const move = (axis) => {
+    switch (axis) {
+      case "Z":
+        return [
+          { translateZ: 50 },
+          { translateZ: 0 },
+          { translateZ: -50 },
+          { translateZ: 0 },
+        ];
+      case "Y":
+        return [
+          { translateY: 50 },
+          { translateY: 0 },
+          { translateY: -50 },
+          { translateY: 0 },
+        ];
+      case "X":
+      default:
+        return [
+          { translateX: 50 },
+          { translateX: 0 },
+          { translateX: -50 },
+          { translateX: 0 },
+        ];
+    }
+  };
+
+  useEffect(() => {
+    anime({
+      targets: ".SquareMove",
+      keyframes: move(axis),
+      loop: true,
+      duration: 2000,
+      easing: "linear",
+    });
+  }, [axis]);
 
   return (
     <div className={clsx("Container", containerClass)}>

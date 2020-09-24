@@ -1740,9 +1740,9 @@
     prop-types "15.7.2"
     react "16.13.1"
 
-"@bit/osequi.test.use-controls@^0.1.0":
-  version "0.1.0"
-  resolved "https://node.bit.dev/osequi.test.use-controls/-/osequi.test.use-controls-0.1.0.tgz#84b9a7a7212bb9981ed6ab8aafd1c03b062882b0"
+"@bit/osequi.test.use-controls@^0.1.1":
+  version "0.1.1"
+  resolved "https://node.bit.dev/osequi.test.use-controls/-/osequi.test.use-controls-0.1.1.tgz#841e480ff6b325001fc26e7235e198238bd2af4e"
   dependencies:
     "@material-ui/core" "^4.11.0"
     clsx "^1.1.1"
