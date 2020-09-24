@@ -122,11 +122,25 @@ const SquareMove = (props) => {
    */
   const controls = getControls(props);
   const [values, form] = useControls(controls);
-
   console.log("values:", values);
+
+  /**
+   * Prepares props for Square
+   */
+  const container2 = {
+    ...container,
+    perspective: perspective,
+    isPerspectiveOn: isPerspectiveOn,
+    perspectiveOrigin: perspectiveOrigin,
+  };
+  const square2 = { ...square, container: container2 };
 
   return (
     <div className={clsx("Container", containerClass)}>
+      <div className={clsx("Note", note)}>
+        <ReactMd fileName="./SquareMove.md" />
+      </div>
+      <Square {...square2} className="SquareMove" />
       <div className={clsx("Legend", legend)}>{form}</div>
     </div>
   );
