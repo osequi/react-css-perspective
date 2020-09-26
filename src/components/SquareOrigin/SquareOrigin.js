@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -32,11 +32,23 @@ const propTypes = {
  * Defines the default props
  */
 const defaultProps = {
-  square: SquareDefaultProps,
+  square: { ...SquareDefaultProps, isPerspectiveOn: true },
   controls: {
     title: "Move on:",
     items: [],
   },
+};
+
+/**
+ * Defines the animations
+ */
+const move = () => {
+  return [
+    { translateX: -100 },
+    { translateX: 0 },
+    { translateX: 100 },
+    { translateX: 0 },
+  ];
 };
 
 /**
@@ -77,13 +89,27 @@ const SquareOrigin = (props) => {
    */
   const { markdown } = useMarkdown(docFile);
 
+  /**
+   * Updates the animation from Controls
+   */
+  useEffect(() => {
+    anime.set(".SquareOrigin", { rotateY: 90 });
+    anime({
+      targets: ".SquareOrigin",
+      keyframes: move(),
+      loop: true,
+      duration: 2000,
+      easing: "linear",
+    });
+  }, []);
+
   return (
     <div className={clsx("Container", containerClass)}>
       <div
         className={clsx("Note", note)}
         dangerouslySetInnerHTML={{ __html: markdown }}
       />
-      <Square {...square} className="SquareOrigin" />
+      <Square {...square} className={clsx("SquareOrigin")} />
       <div className={clsx("Legend", legend)}></div>
     </div>
   );
