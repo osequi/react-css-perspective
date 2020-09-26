@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
-import ReactMd from "react-md-file";
 
 /**
  * Imports other components and hooks
@@ -10,6 +9,12 @@ import ReactMd from "react-md-file";
 import SquareMove from "../SquareMove";
 import SquareRotate from "../SquareRotate";
 import { Headings } from "@bit/osequi.test.react-semantic-elements";
+import useMarkdown from "@osequi/use-markdown";
+
+/**
+ * Imports docs
+ */
+import docFile from "./Demo.md";
 
 /**
  * Defines the prop types
@@ -36,9 +41,14 @@ const useStyles = makeStyles((theme) => ({
 const Demo = (props) => {
   const { container } = useStyles(props);
 
+  /**
+   * Loads docs
+   */
+  const { markdown } = useMarkdown(docFile);
+
   return (
     <div className={clsx("Demo", container)}>
-      <ReactMd fileName="./Demo.md" />
+      <div dangerouslySetInnerHTML={{ __html: markdown }} />
       <SquareMove />
       <SquareRotate />
     </div>

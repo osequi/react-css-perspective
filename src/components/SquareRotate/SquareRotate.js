@@ -5,7 +5,7 @@ import clsx from "clsx";
 import shortid from "shortid";
 
 import anime from "animejs";
-import ReactMd from "react-md-file";
+
 import useControls, {
   useControlsPropTypes,
 } from "@bit/osequi.test.use-controls";
@@ -15,6 +15,12 @@ import useControls, {
  */
 import Square, { SquarePropTypes, SquareDefaultProps } from "../Square";
 import { updateControls } from "../SquareMove";
+import useMarkdown from "@osequi/use-markdown";
+
+/**
+ * Imports docs
+ */
+import docFile from "./SquareRotate.md";
 
 /**
  * Defines the prop types
@@ -126,6 +132,11 @@ const SquareRotate = (props) => {
   const { container: containerClass, legend, note } = useStyles(props);
 
   /**
+   * Loads docs
+   */
+  const { markdown } = useMarkdown(docFile);
+
+  /**
    * Loads the controls
    */
   const controls = updateControls(props);
@@ -169,9 +180,10 @@ const SquareRotate = (props) => {
 
   return (
     <div className={clsx("Container", containerClass)}>
-      <div className={clsx("Note", note)}>
-        <ReactMd fileName="./SquareRotate.md" />
-      </div>
+      <div
+        className={clsx("Note", note)}
+        dangerouslySetInnerHTML={{ __html: markdown }}
+      />
       <Square {...square2} className="SquareRotate" />
       <div className={clsx("Legend", legend)}>{form}</div>
     </div>
