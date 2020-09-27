@@ -119,12 +119,14 @@ const updateControls = (props) => {
  * Defines the styles
  */
 const useStyles = makeStyles((theme) => ({
-  animation: {
-    animationDuration: "2s",
-    animationIterationCount: "infinite",
-    animationDirection: "alternate",
-    animationTimingFunction: "ease-in-out",
-    animationName: `$${theme.custom.animationName}`,
+  animationX: {
+    animation: `$moveOnX 2s infinite ease-in-out alternate`,
+  },
+  animationY: {
+    animation: `$moveOnY 2s infinite ease-in-out alternate`,
+  },
+  animationZ: {
+    animation: `$moveOnZ 2s infinite ease-in-out alternate`,
   },
   "@keyframes moveOnX": {
     "0%": {
@@ -180,9 +182,9 @@ const SquareMove = (props) => {
    * Loads the styles
    */
   const { container: containerClass, legend, note } = DemoStyles(props);
-  const theme = useTheme();
-  theme.custom.animationName = `moveOn${axis}`;
-  const { animation } = useStyles();
+  const { animationX, animationY, animationZ } = useStyles();
+  const animation =
+    axis === "X" ? animationX : axis === "Y" ? animationY : animationZ;
 
   /**
    * Loads the square
