@@ -32,7 +32,19 @@ const defaultProps = {};
  */
 const useStyles = makeStyles((theme) => ({
   container: {
-    overflowX: "hidden",
+    display: "flex",
+    justifyContent: "space-between",
+  },
+
+  legend: {
+    width: "200px",
+    background: "beige",
+    padding: "1em",
+    margin: "1em",
+  },
+
+  note: {
+    maxWidth: "45em",
   },
 }));
 
@@ -40,15 +52,13 @@ const useStyles = makeStyles((theme) => ({
  * Displays the component
  */
 const Demo = (props) => {
-  const { container } = useStyles(props);
-
   /**
    * Loads docs
    */
   const { markdown } = useMarkdown(docFile);
 
   return (
-    <div className={clsx("Demo", container)}>
+    <div className={clsx("Demo")}>
       <div dangerouslySetInnerHTML={{ __html: markdown }} />
       <SquareMove />
       <SquareRotate />
@@ -61,4 +71,8 @@ Demo.propTypes = propTypes;
 Demo.defaultProps = defaultProps;
 
 export default Demo;
-export { propTypes as DemoPropTypes, defaultProps as DemoDefaultProps };
+export {
+  propTypes as DemoPropTypes,
+  defaultProps as DemoDefaultProps,
+  useStyles as DemoStyles,
+};

@@ -8,6 +8,8 @@ import shortid from "shortid";
  * Imports other components and hooks
  */
 import Square, { SquarePropTypes, SquareDefaultProps } from "../Square";
+import { DemoStyles } from "../Demo";
+
 import useMarkdown from "@osequi/use-markdown";
 import useControls, {
   useControlsPropTypes,
@@ -40,23 +42,7 @@ const defaultProps = {
 /**
  * Defines the styles
  */
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-
-  legend: {
-    width: "200px",
-    background: "beige",
-    padding: "1em",
-    margin: "1em",
-  },
-
-  note: {
-    maxWidth: "45em",
-  },
-}));
+const useStyles = makeStyles((theme) => ({}));
 
 /**
  * Displays the component
@@ -68,7 +54,7 @@ const SquareOrigin = (props) => {
   /**
    * Loads the styles
    */
-  const { container: containerClass, legend, note } = useStyles(props);
+  const { container: containerClass, legend, note } = DemoStyles(props);
 
   /**
    * Loads docs

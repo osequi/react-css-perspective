@@ -1,1 +1,1 @@
-export { default, DemoPropTypes, DemoDefaultProps } from "./Demo";
+export { default, DemoPropTypes, DemoDefaultProps, DemoStyles } from "./Demo";
