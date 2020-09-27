@@ -20,7 +20,12 @@ const propTypes = {
  * Defines the default props
  */
 const defaultProps = {
-  cube: CubeDefaultProps,
+  cube: {
+    ...CubeDefaultProps,
+    sides: CubeDefaultProps.sides.map((item) => {
+      return { ...item, key: shortid.generate() };
+    }),
+  },
 };
 
 /**
