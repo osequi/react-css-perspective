@@ -118,7 +118,19 @@ const updateControls = (props) => {
 /**
  * Defines the styles
  */
-const useStyles = makeStyles((theme) => ({}));
+const useStyles = makeStyles((theme) => ({
+  animation: {
+    animation: `$moveOnX 2s infinite ease-in-out alternate`,
+  },
+  "@keyframes moveOnX": {
+    "0%": {
+      transform: "translateX(-50px)",
+    },
+    "100%": {
+      transform: "translateX(50px)",
+    },
+  },
+}));
 
 /**
  * Displays the component
@@ -131,6 +143,7 @@ const SquareMove = (props) => {
    * Loads the styles
    */
   const { container: containerClass, legend, note } = DemoStyles(props);
+  const { animation } = useStyles(props);
 
   /**
    * Loads docs
@@ -172,7 +185,7 @@ const SquareMove = (props) => {
         className={clsx("Note", note)}
         dangerouslySetInnerHTML={{ __html: markdown }}
       />
-      <Square {...square2} className="SquareMove" />
+      <Square {...square2} className={clsx("SquareMove", animation)} />
       <div className={clsx("Legend", legend)}>{form}</div>
     </div>
   );
