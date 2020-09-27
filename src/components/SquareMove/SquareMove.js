@@ -117,6 +117,8 @@ const updateControls = (props) => {
 
 /**
  * Defines the styles
+ * - This is an ugly hack for 'animation'.
+ * - Couldn't make it work neither with `props` nor `theme`
  */
 const useStyles = makeStyles((theme) => ({
   animationX: {
@@ -180,6 +182,8 @@ const SquareMove = (props) => {
 
   /**
    * Loads the styles
+   * - This is an ugly hack for 'animation'.
+   * - theme.custom.animationName = `moveOn${axis}` simply didn't update on state change
    */
   const { container: containerClass, legend, note } = DemoStyles(props);
   const { animationX, animationY, animationZ } = useStyles();
