@@ -6,7 +6,6 @@ import clsx from "clsx";
 /**
  * Imports other components and hooks
  */
-import { Headings } from "@bit/osequi.test.react-semantic-elements";
 import useMarkdown from "@osequi/use-markdown";
 import SquareMove from "../SquareMove";
 import SquareRotate from "../SquareRotate";

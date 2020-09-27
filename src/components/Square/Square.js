@@ -17,6 +17,7 @@ const propTypes = {
   width: PropTypes.string,
   height: PropTypes.height,
   className: PropTypes.string,
+  isContainerAnimated: PropTypes.bool,
 };
 
 /**
@@ -33,6 +34,7 @@ const defaultProps = {
   width: "100px",
   height: "100px",
   className: "Square",
+  isContainerAnimated: false,
 };
 
 /**
@@ -60,17 +62,35 @@ const useStyles = makeStyles((theme) => ({
     height: props.height,
     background: "palegreen",
   }),
+
+  animatedContainer: {
+    animation: `$moveOrigin 4s infinite ease-in-out alternate;`,
+  },
+
+  "@keyframes moveOrigin": {
+    "0%": {
+      perspectiveOrigin: "left center",
+    },
+    "100%": {
+      perspectiveOrigin: "right center",
+    },
+  },
 }));
 
 /**
  * Displays the component
  */
 const Square = (props) => {
-  const { className } = props;
-  const { container, square } = useStyles(props);
+  const { className, isContainerAnimated } = props;
+  const { container, square, animatedContainer } = useStyles(props);
+
+  const container2 = isContainerAnimated ? animatedContainer : null;
+  const klassName = isContainerAnimated
+    ? "SquareContainerAnimated"
+    : "SquareContainer";
 
   return (
-    <div className={clsx("SquareContainer", container)}>
+    <div className={clsx(klassName, container, container2)}>
       <div className={clsx("Square", className, square)} />
     </div>
   );
