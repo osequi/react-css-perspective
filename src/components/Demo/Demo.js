@@ -10,6 +10,7 @@ import useMarkdown from "@osequi/use-markdown";
 import SquareMove from "../SquareMove";
 import SquareRotate from "../SquareRotate";
 import SquareOrigin from "../SquareOrigin";
+import CubeDraw from "../CubeDraw";
 
 /**
  * Imports docs
@@ -58,6 +59,7 @@ const Demo = (props) => {
 
   return (
     <div className={clsx("Demo")}>
+      <CubeDraw />
       <div dangerouslySetInnerHTML={{ __html: markdown }} />
       <SquareMove />
       <SquareRotate />
