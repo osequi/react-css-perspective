@@ -11,6 +11,4 @@ When the perspective is large (2400px) we are very far from the object and the m
 
 When the perspective value is close to the object size / container size (200x200px) the movement is normal.
 
----
-
 When move on the X, Y axis perspective has no influence, obviously.

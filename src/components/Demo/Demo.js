@@ -59,11 +59,11 @@ const Demo = (props) => {
 
   return (
     <div className={clsx("Demo")}>
-      <CubeDraw />
       <div dangerouslySetInnerHTML={{ __html: markdown }} />
       <SquareMove />
       <SquareRotate />
       <SquareOrigin />
+      <CubeDraw />
     </div>
   );
 };
