@@ -3,7 +3,7 @@ import { ThemeProvider, createMuiTheme } from "@material-ui/core";
 
 import Demo from "./components/Demo";
 
-const theme = createMuiTheme({});
+const theme = createMuiTheme({ custom: {} });
 
 const App = () => {
   return (

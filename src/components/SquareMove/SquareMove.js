@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
 import shortid from "shortid";
 
@@ -120,7 +120,11 @@ const updateControls = (props) => {
  */
 const useStyles = makeStyles((theme) => ({
   animation: {
-    animation: `$moveOnX 2s infinite ease-in-out alternate`,
+    animationDuration: "2s",
+    animationIterationCount: "infinite",
+    animationDirection: "alternate",
+    animationTimingFunction: "ease-in-out",
+    animationName: `$${theme.custom.animationName}`,
   },
   "@keyframes moveOnX": {
     "0%": {
@@ -128,6 +132,22 @@ const useStyles = makeStyles((theme) => ({
     },
     "100%": {
       transform: "translateX(50px)",
+    },
+  },
+  "@keyframes moveOnY": {
+    "0%": {
+      transform: "translateY(-50px)",
+    },
+    "100%": {
+      transform: "translateY(50px)",
+    },
+  },
+  "@keyframes moveOnZ": {
+    "0%": {
+      transform: "translateZ(-50px)",
+    },
+    "100%": {
+      transform: "translateZ(50px)",
     },
   },
 }));
@@ -138,17 +158,6 @@ const useStyles = makeStyles((theme) => ({
 const SquareMove = (props) => {
   const { square } = props;
   const { container } = square;
-
-  /**
-   * Loads the styles
-   */
-  const { container: containerClass, legend, note } = DemoStyles(props);
-  const { animation } = useStyles(props);
-
-  /**
-   * Loads docs
-   */
-  const { markdown } = useMarkdown(docFile);
 
   /**
    * Loads the controls
@@ -168,7 +177,15 @@ const SquareMove = (props) => {
   } = values;
 
   /**
-   * Updates the Square from Controls
+   * Loads the styles
+   */
+  const { container: containerClass, legend, note } = DemoStyles(props);
+  const theme = useTheme();
+  theme.custom.animationName = `moveOn${axis}`;
+  const { animation } = useStyles();
+
+  /**
+   * Loads the square
    */
   const container2 = {
     ...container,
@@ -178,6 +195,11 @@ const SquareMove = (props) => {
   };
 
   const square2 = { ...square, container: container2 };
+
+  /**
+   * Loads the docs
+   */
+  const { markdown } = useMarkdown(docFile);
 
   return (
     <div className={clsx("Container", containerClass)}>
