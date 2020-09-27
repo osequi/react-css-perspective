@@ -85,7 +85,32 @@ const defaultProps = {
 /**
  * Defines the styles
  */
-const useStyles = makeStyles((theme) => ({}));
+const useStyles = makeStyles((theme) => ({
+  animationX: {
+    animation: `$rotateOnX 4s infinite linear;`,
+  },
+  animationY: {
+    animation: `$rotateOnY 4s infinite linear;`,
+  },
+  animationZ: {
+    animation: `$rotateOnZ 4s infinite linear;`,
+  },
+  "@keyframes rotateOnX": {
+    "100%": {
+      transform: "rotateX(360deg)",
+    },
+  },
+  "@keyframes rotateOnY": {
+    "100%": {
+      transform: "rotateY(360deg)",
+    },
+  },
+  "@keyframes rotateOnZ": {
+    "100%": {
+      transform: "rotateZ(360deg)",
+    },
+  },
+}));
 
 /**
  * Displays the component
@@ -95,12 +120,7 @@ const SquareRotate = (props) => {
   const { container } = square;
 
   /**
-   * Loads the styles
-   */
-  const { container: containerClass, legend, note } = DemoStyles(props);
-
-  /**
-   * Loads docs
+   * Loads the docs
    */
   const { markdown } = useMarkdown(docFile);
 
@@ -133,13 +153,21 @@ const SquareRotate = (props) => {
 
   const square2 = { ...square, container: container2 };
 
+  /**
+   * Loads the styles
+   */
+  const { container: containerClass, legend, note } = DemoStyles(props);
+  const { animationX, animationY, animationZ } = useStyles();
+  const animation =
+    axis === "X" ? animationX : axis === "Y" ? animationY : animationZ;
+
   return (
     <div className={clsx("Container", containerClass)}>
       <div
         className={clsx("Note", note)}
         dangerouslySetInnerHTML={{ __html: markdown }}
       />
-      <Square {...square2} className="SquareRotate" />
+      <Square {...square2} className={clsx("SquareRotate", animation)} />
       <div className={clsx("Legend", legend)}>{form}</div>
     </div>
   );
