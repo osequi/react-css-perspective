@@ -4,18 +4,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import shortid from "shortid";
 
-import anime from "animejs";
-
-import useControls, {
-  useControlsPropTypes,
-} from "@bit/osequi.test.use-controls";
-
 /**
  * Imports other components and hooks
  */
 import Square, { SquarePropTypes, SquareDefaultProps } from "../Square";
 import { updateControls } from "../SquareMove";
 import useMarkdown from "@osequi/use-markdown";
+import useControls, {
+  useControlsPropTypes,
+} from "@bit/osequi.test.use-controls";
 
 /**
  * Imports docs
@@ -105,21 +102,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 /**
- * Defines the animations
- */
-const rotate = (axis) => {
-  switch (axis) {
-    case "Z":
-      return [{ rotateX: 0 }, { rotateY: 0 }, { rotateZ: 360 }];
-    case "Y":
-      return [{ rotateX: 0 }, { rotateZ: 0 }, { rotateY: 360 }];
-    case "X":
-    default:
-      return [{ rotateY: 0 }, { rotateZ: 0 }, { rotateX: 360 }];
-  }
-};
-
-/**
  * Displays the component
  */
 const SquareRotate = (props) => {
@@ -164,19 +146,6 @@ const SquareRotate = (props) => {
   };
 
   const square2 = { ...square, container: container2 };
-
-  /**
-   * Updates the animation from Controls
-   */
-  useEffect(() => {
-    anime({
-      targets: ".SquareRotate",
-      keyframes: rotate(axis),
-      loop: true,
-      duration: 4000,
-      easing: "linear",
-    });
-  }, [axis]);
 
   return (
     <div className={clsx("Container", containerClass)}>

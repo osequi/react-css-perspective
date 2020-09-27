@@ -4,16 +4,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import shortid from "shortid";
 
-import anime from "animejs";
-import useControls, {
-  useControlsPropTypes,
-} from "@bit/osequi.test.use-controls";
-
 /**
  * Imports other components and hooks
  */
 import Square, { SquarePropTypes, SquareDefaultProps } from "../Square";
 import useMarkdown from "@osequi/use-markdown";
+import useControls, {
+  useControlsPropTypes,
+} from "@bit/osequi.test.use-controls";
 
 /**
  * Imports docs
@@ -37,18 +35,6 @@ const defaultProps = {
     title: "Move on:",
     items: [],
   },
-};
-
-/**
- * Defines the animations
- */
-const move = () => {
-  return [
-    { translateX: -100 },
-    { translateX: 0 },
-    { translateX: 100 },
-    { translateX: 0 },
-  ];
 };
 
 /**
@@ -88,20 +74,6 @@ const SquareOrigin = (props) => {
    * Loads docs
    */
   const { markdown } = useMarkdown(docFile);
-
-  /**
-   * Updates the animation from Controls
-   */
-  useEffect(() => {
-    anime.set(".SquareOrigin", { rotateY: 90 });
-    anime({
-      targets: ".SquareOrigin",
-      keyframes: move(),
-      loop: true,
-      duration: 2000,
-      easing: "linear",
-    });
-  }, []);
 
   return (
     <div className={clsx("Container", containerClass)}>

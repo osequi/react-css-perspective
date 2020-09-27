@@ -4,16 +4,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import shortid from "shortid";
 
-import anime from "animejs";
-import useControls, {
-  useControlsPropTypes,
-} from "@bit/osequi.test.use-controls";
-
 /**
  * Imports other components and hooks
  */
 import Square, { SquarePropTypes, SquareDefaultProps } from "../Square";
 import useMarkdown from "@osequi/use-markdown";
+import useControls, {
+  useControlsPropTypes,
+} from "@bit/osequi.test.use-controls";
 
 /**
  * Imports docs
@@ -138,36 +136,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 /**
- * Defines the animations
- */
-const move = (axis) => {
-  switch (axis) {
-    case "Z":
-      return [
-        { translateZ: 50 },
-        { translateZ: 0 },
-        { translateZ: -50 },
-        { translateZ: 0 },
-      ];
-    case "Y":
-      return [
-        { translateY: 50 },
-        { translateY: 0 },
-        { translateY: -50 },
-        { translateY: 0 },
-      ];
-    case "X":
-    default:
-      return [
-        { translateX: 50 },
-        { translateX: 0 },
-        { translateX: -50 },
-        { translateX: 0 },
-      ];
-  }
-};
-
-/**
  * Displays the component
  */
 const SquareMove = (props) => {
@@ -212,19 +180,6 @@ const SquareMove = (props) => {
   };
 
   const square2 = { ...square, container: container2 };
-
-  /**
-   * Updates the animation from Controls
-   */
-  useEffect(() => {
-    anime({
-      targets: ".SquareMove",
-      keyframes: move(axis),
-      loop: true,
-      duration: 2000,
-      easing: "linear",
-    });
-  }, [axis]);
 
   return (
     <div className={clsx("Container", containerClass)}>
