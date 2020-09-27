@@ -46,7 +46,7 @@ const defaultProps = {
     height: "400px",
     perspective: "800px",
     perspectiveOrigin: "top right",
-    isPerspectiveOn: true,
+    isPerspectiveOn: false,
     className: "CubeContainer",
   },
   cube: {
